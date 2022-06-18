@@ -4,6 +4,7 @@ import {
   FlatList,
   RefreshControl,
   ScrollView,
+  SectionList,
   StyleSheet,
   Text,
   View,
@@ -21,24 +22,46 @@ const [items, setItems] = useState([
   {id: 8, item: 'item 8'},
   {id: 9, item: 'item 9'}
 ])
+const [DATA, setDATA] = useState([
+  {
+    title: 'Title 1',
+    data: ['item 1, 3', 'item 2, 3', 'item 3, 3']
+  },
+])
 const [refreshing, setRefreshing] = useState(false)
 const onRefresh = ()=>{
   setRefreshing(true)
-  setItems([...items, {id: items.length +1, item: `item ${items.length + 1}`}])
+  setDATA([...DATA, {title: `Title ${DATA.length + 1}`, data:[`item ${DATA.length + 1}, 1`, `item ${DATA.length + 1}, 2`, `item ${DATA.length + 1}, 3`] }])
   setRefreshing(false)
 }
   return (
-    <FlatList 
-    refreshControl={
-      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-    }
-    data={items} 
-    keyExtractor={(item, index)=> index.toString()}
-    renderItem={({item})=>(
-    <View style={styles.item} >
-      <Text style={styles.text}>{item.item}</Text>
-      </View>)} 
-      />)
+    <SectionList keyExtractor={(item, index)=> index.toString()} sections={DATA} renderItem={({item})=>(<View style={styles.item} >
+        <Text style={styles.text}>{item}</Text>
+        </View>)} 
+        renderSectionHeader={({section})=>(<View style={styles.title} >
+          <Text style={styles.titleText}>{section.title}</Text>
+          </View>)}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        />
+    // <FlatList 
+    // refreshControl={
+    //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    // }
+    // data={items} 
+    // keyExtractor={(item, index)=> index.toString()}
+    // renderItem={({item})=>(
+    // <View style={styles.item} >
+    //   <Text style={styles.text}>{item.item}</Text>
+    //   </View>)} 
+    //   />
+    // <ScrollView style={styles.body} refreshControl={
+    //   <RefreshControl colors={['green']} refreshing={refreshing} onRefresh={onRefresh} />
+    // }>
+    // {items.map(i=> {return (<View key={i.id} style={styles.item} ><Text style={styles.text}>{i.item}</Text></View>)})}
+    // </ScrollView>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -53,6 +76,19 @@ backgroundColor: '#555'
   fontStyle: 'italic',
   margin: 10
 
+ },
+ titleText:{
+  color: '#fff',
+  fontSize: 22,
+  fontStyle: 'italic',
+  margin: 10
+
+ },
+ title:{
+  backgroundColor: '#555',
+  flex: 1,
+  alignItems: 'center',
+  justifyContent: 'center',
  },
 item:{
   backgroundColor: 'white',
