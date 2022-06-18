@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import {
   Button,
+  FlatList,
   RefreshControl,
   ScrollView,
   StyleSheet,
@@ -27,12 +28,17 @@ const onRefresh = ()=>{
   setRefreshing(false)
 }
   return (
-    <ScrollView style={styles.body} refreshControl={
-      <RefreshControl colors={['green']} refreshing={refreshing} onRefresh={onRefresh} />
-    }>
-    {items.map(i=> {return (<View key={i.id} style={styles.item} ><Text style={styles.text}>{i.item}</Text></View>)})}
-    </ScrollView>
-  );
+    <FlatList 
+    refreshControl={
+      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    }
+    data={items} 
+    keyExtractor={(item, index)=> index.toString()}
+    renderItem={({item})=>(
+    <View style={styles.item} >
+      <Text style={styles.text}>{item.item}</Text>
+      </View>)} 
+      />)
 };
 
 const styles = StyleSheet.create({
