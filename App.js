@@ -3,6 +3,7 @@ import {
   Alert,
   Button,
   FlatList,
+  Modal,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -18,41 +19,38 @@ import {
 const App = () => {
   const [name, setName] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
   const onSubmit = () => {
     if (name.length > 3) {
       setSubmitted(!submitted);
     } else {
-      ToastAndroid.showWithGravity(
-        'Name must be at least 4 characters long!',
-        ToastAndroid.LONG,
-        ToastAndroid.CENTER,
-      );
+      setShowWarning(true);
     }
-    // name.length > 3
-    //   ? setSubmitted(!submitted)
-    //   : ToastAndroid.showWithGravityAndOffset(
-    //       'Name must be at least 4 characters long!',
-    //       ToastAndroid.LONG,
-    //       ToastAndroid.TOP,
-    //       100,
-    //       100,
-    //     );
-    // Alert.alert(
-    //     'Warning',
-    //     'Name must be at least 4 characters long',
-    //     [
-    //       {
-    //         text: 'Do not show again',
-    //         onPress: () => console.warn('Do not show again pressed'),
-    //       },
-    //       {text: 'Cancel', onPress: () => console.warn('Cancel pressed')},
-    //       {text: 'OK', onPress: () => console.warn('OK pressed')},
-    //     ],
-    //     {cancelable: true, onDismiss: () => console.warn('Dismissed!')},
-    //   );
   };
   return (
     <View style={styles.body}>
+      <Modal
+        visible={showWarning}
+        onRequestClose={() => setShowWarning(false)}
+        transparent
+        animationType="fade">
+        <View style={styles.modal_container}>
+          <View style={styles.modal_wrapper}>
+            <View style={styles.modal_title}>
+              <Text style={styles.modal_title_text}>Warning!</Text>
+            </View>
+            <View style={styles.modal_body}>
+              <Text>Hello world!</Text>
+            </View>
+            <Pressable
+              style={styles.modal_bottom}
+              android_ripple={{color: '#ccc'}}
+              onPress={() => setShowWarning(false)}>
+              <Text style={styles.modal_bottom_text}>OK</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
       <Text style={styles.text}>What is your name?</Text>
       <TextInput
         style={styles.input}
@@ -107,6 +105,58 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     color: 'white',
     fontWeight: 'bold',
+  },
+  modal_container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#00000099',
+  },
+  modal_wrapper: {
+    height: 300,
+    width: 300,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#000',
+    // justifyContent: 'center',
+    // backgroundColor: '#00000099',
+    borderRadius: 20,
+  },
+  modal_title: {
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#000999',
+    width: '100%',
+    borderTopEndRadius: 20,
+    borderTopStartRadius: 20,
+  },
+  modal_title_text: {
+    color: '#fff',
+    fontSize: 28,
+    fontWeight: 'bold',
+  },
+  modal_body: {
+    width: '100%',
+    height: 200,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+  },
+  modal_bottom: {
+    backgroundColor: '#093',
+    height: 50,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomEndRadius: 20,
+    borderBottomStartRadius: 20,
+  },
+  modal_bottom_text: {
+    color: '#fff',
+    fontSize: 22,
+    fontWeight: '700',
   },
 });
 
