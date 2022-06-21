@@ -4,7 +4,7 @@ import {Text, View, StyleSheet} from 'react-native';
 const Header = () => {
   return (
     <View style={styles.header}>
-      <Text style={styles.text}>reactnative zero2hero</Text>
+      <Text style={styles.text}>react native zero 2 hero</Text>
     </View>
   );
 };
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 22,
     fontWeight: '900',
-    textTransform: 'uppercase',
+    textTransform: 'capitalize',
   },
 });
 export default Header;

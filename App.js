@@ -29,7 +29,7 @@ const App = () => {
     }
   };
   return (
-    <ImageBackground source={require('./assets/bg.jpg')} style={styles.body}>
+    <View style={styles.body}>
       <Header />
       <Text style={styles.text}>What is your name?</Text>
       <TextInput
@@ -75,7 +75,7 @@ const App = () => {
           // blurRadius={1}
         />
       )}
-    </ImageBackground>
+    </View>
   );
 };
 
@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
+    backgroundColor: '#00000099',
   },
   text: {
     color: '#000',
@@ -91,13 +92,16 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     margin: 10,
   },
+  
   input: {
-    borderWidth: 1,
+    borderWidth: 2,
     width: '90%',
-    borderColor: '#333',
+    borderColor: '#fff',
     padding: 10,
     borderRadius: 5,
     marginBottom: 10,
+    color: '#fff',
+
   },
   btn: {
     padding: 10,
