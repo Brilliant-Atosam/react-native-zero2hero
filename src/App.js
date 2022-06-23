@@ -6,9 +6,11 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import ScreenA from './screens/ScreenA';
 import ScreenB from './screens/ScreenB';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 const App = () => {
   // const Tab = createBottomTabNavigator();
-  const Tab = createMaterialBottomTabNavigator();
+  // const Tab = createMaterialBottomTabNavigator();
+  const Tab = createMaterialTopTabNavigator();
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -29,21 +31,21 @@ const App = () => {
               : '';
             return <FontAwesome5 name={iconName} color={color} size={size} />;
           },
-          tabBarShowLabel: false,
+          tabBarShowLabel: true,
           tabBarLabelStyle: {fontSize: 22},
           tabBarActiveTintColor: '#f0f',
-          tabBarInactiveTintColor: '#fff',
+          tabBarInactiveTintColor: '#555',
           tabBarActiveBackgroundColor: '#fff',
           tabBarInactiveBackgroundColor: '#33333399',
         })}
-        activeColor="#fff"
-        inactiveColor="#ffffff99"
+        activeColor="#555"
+        inactiveColor="#55555599"
         barStyle={{backgroundColor: 'blue'}}>
         <Tab.Screen
           name="Screen_A"
           component={ScreenA}
           options={{
-            tabBarBadge: 3,
+            // tabBarBadge: 3,
           }}
         />
         <Tab.Screen name="Screen_B" component={ScreenB} />

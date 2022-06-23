@@ -19,6 +19,8 @@ target 'cli1' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  pod 'react-native-viewpager', :path => '../node_modules/@react-native-community/viewpager'
+
   target 'cli1Tests' do
     inherit! :complete
     # Pods for testing
