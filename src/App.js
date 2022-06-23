@@ -17,11 +17,16 @@ const App = () => {
             let iconName;
             // color = focused ? '#555' : '#000';
             size = focused ? 25 : 20;
-            if (route.name === 'Screen_A') {
-              iconName = 'autoprefixer';
-            } else if (route.name === 'Screen_B') {
-              iconName = 'btc';
-            }
+            // if (route.name === 'Screen_A') {
+            //   iconName = 'autoprefixer';
+            // } else if (route.name === 'Screen_B') {
+            //   iconName = 'btc';
+            // }
+            route.name === 'Screen_A'
+              ? (iconName = 'autoprefixer')
+              : route.name === 'Screen_B'
+              ? (iconName = 'btc')
+              : '';
             return <FontAwesome5 name={iconName} color={color} size={size} />;
           },
           tabBarShowLabel: false,
@@ -31,11 +36,9 @@ const App = () => {
           tabBarActiveBackgroundColor: '#fff',
           tabBarInactiveBackgroundColor: '#33333399',
         })}
-        activeColor= '#f0f'
-        inactiveColor='#555'
-        barStyle={{backgroundColor: 'red'}}
-
-        >
+        activeColor="#fff"
+        inactiveColor="#ffffff99"
+        barStyle={{backgroundColor: 'blue'}}>
         <Tab.Screen
           name="Screen_A"
           component={ScreenA}
