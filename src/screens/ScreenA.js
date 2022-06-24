@@ -4,7 +4,8 @@ import {Text, View, StyleSheet, Pressable} from 'react-native';
 const ScreenA = ({navigation}) => {
   const onPressHandler = () => {
     // navigation.navigate('Screen_B')
-    navigation.navigate('Screen_B');
+    // navigation.navigate('Screen_B');
+    navigation.toggleDrawer();
   };
   return (
     <View style={styles.body}>
