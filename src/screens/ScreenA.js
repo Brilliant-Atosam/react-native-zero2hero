@@ -1,11 +1,11 @@
 import React from 'react';
 import {Text, View, StyleSheet, Pressable} from 'react-native';
 
-const ScreenA = ({navigation}) => {
+const ScreenA = ({navigation, route}) => {
   const onPressHandler = () => {
-    // navigation.navigate('Screen_B')
-    // navigation.navigate('Screen_B');
-    navigation.toggleDrawer();
+    // navigation.navigate('Screen_B', {name: 'Bongo', id: 27}); //send data to screen B
+    navigation.navigate('Screen_B');
+    // navigation.toggleDrawer();
   };
   return (
     <View style={styles.body}>
@@ -13,6 +13,7 @@ const ScreenA = ({navigation}) => {
       <Pressable onPress={onPressHandler}>
         <Text style={styles.btn}>Go to Screen B</Text>
       </Pressable>
+        <Text>{route.params?.message}</Text>
     </View>
   );
 };

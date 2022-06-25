@@ -1,9 +1,11 @@
 import React from 'react';
 import {Text, View, StyleSheet, Pressable} from 'react-native';
 
-const ScreenB = ({navigation}) => {
+const ScreenB = ({navigation, route}) => {
+  const {name, id} = route.params;
   const onPressHandler = () => {
-    navigation.navigate('Screen_A');
+    navigation.navigate('Screen_A', {message: 'You are going to be wealthy!'});
+    // navigation.setParams({id: id + id}); //updating data brought from screen A
     // navigation.goBack(); if screen A was replaced by screen B, the goBack() function will not work
   };
   return (
@@ -12,6 +14,8 @@ const ScreenB = ({navigation}) => {
       <Pressable onPress={onPressHandler}>
         <Text style={styles.btn}>Go back to Screen A</Text>
       </Pressable>
+      <Text style={styles.text}>Name: {name}</Text>
+      <Text style={styles.text}>ID: {id}</Text>
     </View>
   );
 };

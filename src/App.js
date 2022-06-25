@@ -25,15 +25,16 @@ const App = () => {
           },
           drawerPosition: 'right',
           drawerType: 'back',
-          drawerHideStatusBarOnOpen: true,
+          // drawerHideStatusBarOnOpen: true,
           overlayColor: '#33333390',
           gestureEnabled: false,
           // swipeEnabled: false,
-          swipeEdgeWidth: 400,
+          // swipeEdgeWidth: 400,
           headerStyle: {
             backgroundColor: 'blue',
           },
-          headerTitle: {},
+          headerTitle: '',
+          headerTintColor: 'white',
         }}>
         <Drawer.Screen
           name="Screen_A"
@@ -54,6 +55,7 @@ const App = () => {
               <FontAwesome5 name="btc" size={focused ? 25 : 20} />
             ),
           }}
+          initialParams={{name: 'Bongo Partners', id: 27}}
         />
       </Drawer.Navigator>
     </NavigationContainer>
