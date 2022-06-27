@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View, StyleSheet, Pressable} from 'react-native';
-
+import {GlobaStyle} from '../utils/GlobalStyles';
 const ScreenB = ({navigation, route}) => {
   const {name, id} = route.params;
   const onPressHandler = () => {
@@ -12,7 +12,7 @@ const ScreenB = ({navigation, route}) => {
     <View style={styles.body}>
       <Text style={styles.text}>Screen B component</Text>
       <Pressable onPress={onPressHandler}>
-        <Text style={styles.btn}>Go back to Screen A</Text>
+        <Text style={[GlobaStyle.Button , styles.btn]}>Go back to Screen A</Text>
       </Pressable>
       <Text style={styles.text}>Name: {name}</Text>
       <Text style={styles.text}>ID: {id}</Text>
@@ -29,8 +29,9 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'red',
+    // fontFamily: 'Smooch',
     fontSize: 35,
-    backgroundColor: 'green',
+    // backgroundColor: 'green',
     padding: 10,
   },
   btn: {
