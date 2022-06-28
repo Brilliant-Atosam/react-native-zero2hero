@@ -1,7 +1,7 @@
 import React from 'react';
 import {Pressable, StyleSheet, Text} from 'react-native';
 
-export const CustomButton = ({onSubmit, title, bgColor, bgColorPressed, style}) => {
+export const CustomButton = ({onSubmit, title, bgColor, bgColorPressed, style, btnTextStyles}) => {
   return (
     <Pressable
       onPress={onSubmit}
@@ -13,7 +13,7 @@ export const CustomButton = ({onSubmit, title, bgColor, bgColorPressed, style}) 
       ]}
       // delayLongPress={1000}
       hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}>
-      <Text>{title}</Text>
+      <Text style={[styles.btnText, {...btnTextStyles}]}>{title}</Text>
     </Pressable>
   );
 };
@@ -27,4 +27,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
+  btnText:{
+
+  }
 });
