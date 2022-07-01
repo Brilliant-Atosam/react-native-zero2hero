@@ -10,61 +10,78 @@ import {
 import {GlobaStyle} from '../utils/GlobalStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {CustomButton} from '../utils/CustomButton';
+import SQLite from 'react-native-sqlite-storage';
+const db = SQLite.openDatabase(
+  {
+    name: 'MainDB',
+    location: 'default',
+  },
+  () => {},
+  err => console.log(err),
+);
 const ScreenA = ({navigation, route}) => {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
+  const [user, setUser] = useState({});
+
   useEffect(() => {
     const getData = async () => {
-      const value = await AsyncStorage.getItem('user');
-      const user = JSON.parse(value);
-      setName(user.name);
-      setAge(user.age);
+      db.transaction(tx => {
+        tx.executeSql('SELECT Name, Age FROM Users', [], (tx, results) => {
+          var len = results.rows.length;
+          if (len > 0) {
+            let username = results.rows.item(0).Name;
+            let userAge = results.rows.item(0).Age;
+            setName(username);
+            setAge(userAge);
+          }
+        });
+      });
     };
     getData();
   }, []);
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     const value = await AsyncStorage.getItem('name');
-  //     value !== null ? setName(value) : setName('User');
-  //   };
-  //   getData();
-  // }, []);
   const handleUpdate = async () => {
     if (name.length < 1) {
       Alert.alert('warning', 'Please enter a valid name');
     } else {
       try {
-        const user = {
-          name: name,
-        };
-        await AsyncStorage.mergeItem('user', JSON.stringify(user));
-        Alert.alert('Success!', 'Your data has being updated successfully!');
-        // navigation.navigate('home');
+        db.transaction(tx => {
+          tx.executeSql(
+            'UPDATE Users SET Name=?',
+            [name],
+            () => {
+              Alert.alert(
+                'Success!',
+                'Your data has being updated successfully!',
+              );
+            },
+            error => console.log(error),
+          );
+        });
       } catch (error) {
-        // Alert.alert('warning', error);
         console.log(error);
       }
     }
   };
-  // const handleUpdate = async () => {
-  //   if (name.length < 1) {
-  //     Alert.alert('warning', 'Please enter a valid name');
-  //   } else {
-  //     try {
-  //       await AsyncStorage.setItem('name', name);
-  //       Alert.alert('Success!', 'Your data has being updated successfully!');
-  //       // navigation.navigate('home');
-  //     } catch (error) {
-  //       // Alert.alert('warning', error);
-  //       console.log(error);
-  //     }
-  //   }
-  // };
+
   const handleDelete = async () => {
-    const user = await AsyncStorage.getItem('user');
-    name
-      ? (await AsyncStorage.removeItem('name')) && navigation.navigate('login')
-      : navigation.navigate('login');
+    db.transaction(tx => {
+      tx.executeSql(
+        'DELETE FROM Users',
+        [],
+        () => {
+          Alert.alert('Deleted!', 'Redirecting to login');
+          navigation.navigate('login');
+        },
+        error => {
+          console.log(error);
+        },
+      );
+    });
+    // const user = await AsyncStorage.getItem('user');
+    // user && (await AsyncStorage.removeItem('user'));
+    // Alert.alert('Deleted!', 'Redirecting to login');
+    // navigation.navigate('login');
   };
   return (
     <View style={styles.body}>

@@ -4,28 +4,50 @@ import {TextInput} from 'react-native-paper';
 import {CustomButton} from '../utils/CustomButton';
 import {GlobaStyle} from '../utils/GlobalStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useNavigation} from '@react-navigation/native';
+import SQLite from 'react-native-sqlite-storage';
+const db = SQLite.openDatabase(
+  {
+    name: 'MainDB',
+    location: 'default',
+  },
+  () => {},
+  err => console.log(err),
+);
 const Login = ({navigation}) => {
   // const navigation = useNavigation();
+  const createTable = () =>
+    db.transaction(tx => {
+      tx.executeSql(
+        'CREATE TABLE IF NOT EXISTS ' +
+          'Users ' +
+          '(ID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Age INTEGER);',
+      );
+    });
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
-  useEffect(() => {
-    const getData = async () => {
-      const value = await AsyncStorage.getItem('name');
-      value !== null && navigation.navigate('home');
-    };
-    getData();
-  }, []);
   const handleStorage = async () => {
     if (name.length < 1) {
       Alert.alert('warning', 'Please enter a valid name');
     } else {
       try {
-        const user = {
-          name: name,
-          age: age,
-        };
-        await AsyncStorage.setItem('user', JSON.stringify(user));
+        await db.transaction(async tx => {
+          // await tx.executeSql(
+          //   "INSERT INTO Users (Name, Age) VALUES ('" +
+          //     name +
+          //     "', " +
+          //     age +
+          //     ') ',
+          // );
+          await tx.executeSql('INSERT INTO Users (Name, Age) VALUES (?, ?)', [
+            name,
+            age,
+          ]);
+        });
+        // const user = {
+        //   name: name,
+        //   age: age,
+        // };
+        // await AsyncStorage.setItem('user', JSON.stringify(user));
         navigation.navigate('home');
       } catch (error) {
         // Alert.alert('warning', error);
@@ -33,6 +55,18 @@ const Login = ({navigation}) => {
       }
     }
   };
+  useEffect(() => {
+    createTable();
+    const getData = async () => {
+      db.transaction(tx => {
+        tx.executeSql('SELECT Name, Age FROM Users', [], (tx, results) => {
+          var len = results.rows.length;
+          len > 0 && navigation.navigate('home');
+        });
+      });
+    };
+    getData();
+  }, []);
   return (
     <View style={GlobaStyle.Body}>
       <Image source={require('../../assets/logo.png')} style={styles.logo} />
